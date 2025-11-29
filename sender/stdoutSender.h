@@ -10,7 +10,7 @@ namespace Aciv::utility{
         public:
             Stdout_sender();
             ~Stdout_sender() override = default ;
-            void send(level _level, std::string_view message) override;
+            void send(std::string_view _message) override;
 
         private:
 

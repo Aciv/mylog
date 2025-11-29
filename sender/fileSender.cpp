@@ -26,12 +26,10 @@ namespace Aciv::utility{
 
     }
     
-    void File_sender::send(level _level, std::string_view message){
+    void File_sender::send(std::string_view _message){
         if (m_stream != nullptr)
 		{   
-            std::string log_ = "[" + std::string(to_string(_level)) + "] " + std::string(message);
-            
-			std::fwrite(log_.data(), log_.size(), 1, m_stream);
+			std::fwrite(_message.data(), _message.size(), 1, m_stream);
 			std::fflush(m_stream);
 		}
     }

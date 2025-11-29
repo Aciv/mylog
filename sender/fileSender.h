@@ -10,7 +10,7 @@ namespace Aciv::utility{
         public:
             File_sender(std::string_view _file_path);
             ~File_sender() override;
-            void send(level _level, std::string_view message) override;
+            void send(std::string_view _message) override;
 
         private:
               std::filesystem::path m_file_path;

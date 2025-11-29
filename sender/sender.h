@@ -11,7 +11,7 @@ namespace Aciv::utility{
         public:
 
             virtual ~Sender() = default;
-            virtual void send(level _level, std::string_view message) = 0;
+            virtual void send(std::string_view _message) = 0;
 
             void set_level_filter(level _level_filter);
             bool should_sink(level log_level);

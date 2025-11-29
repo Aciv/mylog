@@ -3,9 +3,11 @@
 #include "../buffer/buffer.h"
 #include "../blockqueue/blockqueue.h"
 #include "../sender/sender.h"
+#include "pattern.h"
 #include <vector>
 
 namespace Aciv::utility{
+
 
     class Log {
         private:
@@ -15,17 +17,19 @@ namespace Aciv::utility{
             Log(const Log&) = delete;
             Log& operator=(const Log&) = delete;
 
-
         public:
             struct Queue_item{
                 level log_level;
                 std::string log_msg;
             };
 
-            void init(std::size_t _max_queue_size = 1024);
+            void init(std::size_t _max_queue_size = 1024,
+                            std::size_t _message_limit = 1024);
+
+            void set_pattern(std::string_view _pattern);
 
 
-            void record(level _level, std::string &_log_msg);
+            void record(level _level, const std::string &_log_msg);
             void flush();
             void write_func();
             
@@ -38,6 +42,7 @@ namespace Aciv::utility{
 
             std::vector<std::unique_ptr<Sender>> m_senders; 
         private:
+
             mutable std::mutex m_mtx;
 
             Buffer m_buffer{};
@@ -45,6 +50,9 @@ namespace Aciv::utility{
 
             bool m_is_Async{};
             std::unique_ptr<std::thread> m_write_thread;
+            
+            std::size_t m_message_limit{1024};
+            Pattern<64> m_pattern;
   
     };
 }

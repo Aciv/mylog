@@ -1,5 +1,5 @@
 CXX = g++
-CFLAGS = -std=c++17 -O2 -Wall -g 
+CFLAGS = -std=c++20 -O2 -Wall -g 
 
 TARGET = logTest
 OBJS = ../buffer/*.cpp ../log/*.cpp ../*.cpp ../sender/*.cpp

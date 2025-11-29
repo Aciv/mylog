@@ -48,5 +48,6 @@ namespace Aciv::utility{
             case level::all: 		return {};
             case level::none:		return {};
 		}
+		return {};
 	}
 }

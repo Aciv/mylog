@@ -26,7 +26,10 @@ namespace Aciv::utility{
             //std::cout << "what ?" << std::flush;
         }
 
-        void Log::init(std::size_t _max_queue_size){
+        void Log::init(std::size_t _max_queue_size,
+                            std::size_t _message_limit){
+
+             m_message_limit = _message_limit;
             if(_max_queue_size > 0){
                 m_is_Async = true;
                 if(!m_queue){
@@ -44,8 +47,14 @@ namespace Aciv::utility{
             m_buffer.reset();
         }
 
+        void Log::set_pattern(std::string_view _pattern){
+            std::lock_guard<std::mutex> locker(m_mtx);
+            m_pattern.set_pattern(_pattern);
+
+        }   
 
         void Log::add_sender(std::unique_ptr<Sender> _sender){
+            std::lock_guard<std::mutex> locker(m_mtx);
             m_senders.push_back(std::move(_sender));
         }
 
@@ -57,27 +66,29 @@ namespace Aciv::utility{
                 
                     if(sender->should_sink(item.log_level)){
                         
-                        sender->send(item.log_level, item.log_msg);
+                        sender->send(item.log_msg);
                     }
                        
                 }
             }
         }
 
-        void Log::record(level _level, std::string &_log_msg){
+        void Log::record(level _level, const std::string &_log_msg){
             {
                 std::lock_guard<std::mutex> locker(m_mtx);
                 m_buffer.reset();
 
-                m_buffer.append(_log_msg);
+                m_pattern.genrate(_level, _log_msg.data(), m_buffer);
+
                 if(m_is_Async){
-                    m_queue->push_back({_level, _log_msg} );
+                    m_queue->push_back({_level, 
+                            std::move(m_buffer.retrieve_to_string(m_buffer.size()))} );
                 }
                 else{
                     std::cout << m_buffer.retrieve_to_string(m_buffer.size());
                 }
             }
-
+            
         }
 
         void Log::flush(){
