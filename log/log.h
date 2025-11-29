@@ -44,6 +44,8 @@ namespace Aciv::utility{
         private:
 
             mutable std::mutex m_mtx;
+            
+            bool m_inited{false};
 
             Buffer m_buffer{};
             std::unique_ptr<BlockDeque<Queue_item>> m_queue;

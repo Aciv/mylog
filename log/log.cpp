@@ -7,8 +7,8 @@ namespace Aciv::utility{
             m_is_Async = false;
             m_queue = nullptr;
             m_write_thread = nullptr;   
-            
-        }
+            m_inited = false; 
+        }  
 
         Log::~Log(){
             
@@ -28,8 +28,12 @@ namespace Aciv::utility{
 
         void Log::init(std::size_t _max_queue_size,
                             std::size_t _message_limit){
-
-             m_message_limit = _message_limit;
+            
+            std::lock_guard<std::mutex> locker(m_mtx);
+            if(m_inited)
+                return;
+            
+            m_message_limit = _message_limit;
             if(_max_queue_size > 0){
                 m_is_Async = true;
                 if(!m_queue){
@@ -78,7 +82,7 @@ namespace Aciv::utility{
                 if(_log_msg.size() >= m_message_limit){
                     return;
                 }
-                
+
                 std::lock_guard<std::mutex> locker(m_mtx);
                 m_buffer.reset();
 
