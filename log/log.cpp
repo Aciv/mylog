@@ -75,6 +75,10 @@ namespace Aciv::utility{
 
         void Log::record(level _level, const std::string &_log_msg){
             {
+                if(_log_msg.size() >= m_message_limit){
+                    return;
+                }
+                
                 std::lock_guard<std::mutex> locker(m_mtx);
                 m_buffer.reset();
 

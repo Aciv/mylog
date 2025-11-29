@@ -24,7 +24,7 @@ namespace Aciv::utility{
             };
 
             void init(std::size_t _max_queue_size = 1024,
-                            std::size_t _message_limit = 1024);
+                            std::size_t _message_limit = 512);
 
             void set_pattern(std::string_view _pattern);
 
@@ -51,7 +51,7 @@ namespace Aciv::utility{
             bool m_is_Async{};
             std::unique_ptr<std::thread> m_write_thread;
             
-            std::size_t m_message_limit{1024};
+            std::size_t m_message_limit{512};
             Pattern<64> m_pattern;
   
     };
