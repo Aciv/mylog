@@ -33,7 +33,7 @@ This simple pattern supports prompt as follow
 %T -> year/month/day hours:minte:second
 %t -> hours:minte:second
 ```
-When get a unknow prompt, simply ignore it, and move out the log message.
+When get a unknow prompt, simply ignore it, and move out the log message, and the max pattern size is set to 63.
 Set pattern as follow:
 ```cpp
 logger.set_pattern("[%l] [%T]: %v\n");
