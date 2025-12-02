@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.25)
 project(SimpleLog VERSION 1.0.0)
 
+find_package(Threads REQUIRED)
+
 add_subdirectory(blockqueue)
 add_subdirectory(buffer)
 add_subdirectory(sender)
@@ -11,28 +13,28 @@ include(GNUInstallDirs)
 
 install( 
 	TARGETS Log Sender BlockQueue Buffer
-	EXPORT LogTargets
+	EXPORT SimpleLogTargets
 	FILE_SET HEADERS
 )
 
 install(
-  EXPORT LogTargets
-  DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/Log
+  EXPORT SimpleLogTargets
+  DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/SimpleLog
   NAMESPACE SimpleLog::
 )
 
 include(CMakePackageConfigHelpers)
 
 write_basic_package_version_file(
-  ${CMAKE_CURRENT_BINARY_DIR}/LogConfigVersion.cmake
+  ${CMAKE_CURRENT_BINARY_DIR}/SimpleLogConfigVersion.cmake
   COMPATIBILITY AnyNewerVersion
 )
 
 install(
   FILES
-    cmake/LogConfig.cmake
-    ${CMAKE_CURRENT_BINARY_DIR}/LogConfigVersion.cmake
-  DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/Log
+    cmake/SimpleLogConfig.cmake
+    ${CMAKE_CURRENT_BINARY_DIR}/SimpleLogConfigVersion.cmake
+  DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/SimpleLog
 )
 
 
