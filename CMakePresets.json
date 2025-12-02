@@ -1,0 +1,12 @@
+{
+  "version": 4,
+  "configurePresets": [
+    {
+      "name": "simple_log",
+      "displayName": "Simple log Preset",
+      "description": "Preset to use with the Simple log",
+      "binaryDir": "${sourceDir}/build",
+      "generator": "MinGW Makefiles"
+    }
+  ]
+}

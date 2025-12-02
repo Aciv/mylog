@@ -42,6 +42,14 @@ namespace Aciv::utility{
         }
     }
 
+    const char* Buffer::read(std::size_t _len){
+        if(_len >= readably_len())
+            return nullptr;
+        const char* back_pointer = read_start_ptr();
+        m_ReadPos.store(m_ReadPos.load() + _len);
+        return back_pointer;
+    }
+
     void Buffer::append(const char* _in_data, std::size_t _data_size){
         if(_in_data == nullptr || _data_size == 0)
             return;

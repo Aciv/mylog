@@ -1,5 +1,5 @@
 #include "log.h"
-#include <iostream>
+
 
 namespace Aciv::utility{
 
@@ -17,13 +17,11 @@ namespace Aciv::utility{
                 while(!m_queue->empty()){
                     m_queue->flush();
                 }
-                std::cout << std::flush;
+                
                 m_queue->Close();
                 m_write_thread->join();
             }
-            // std::cout << std::flush;
-            //std::lock_guard<std::mutex> locker(m_mtx);
-            //std::cout << "what ?" << std::flush;
+
         }
 
         void Log::init(std::size_t _max_queue_size,
@@ -93,7 +91,14 @@ namespace Aciv::utility{
                             std::move(m_buffer.retrieve_to_string(m_buffer.size()))} );
                 }
                 else{
-                    std::cout << m_buffer.retrieve_to_string(m_buffer.size());
+                        for(auto& sender : m_senders){
+                        
+                            if(sender->should_sink(_level)){
+                                
+                                sender->send(m_buffer.retrieve_to_string(m_buffer.size()));
+                            }
+                            
+                        }
                 }
             }
             
@@ -103,7 +108,7 @@ namespace Aciv::utility{
             if(m_is_Async){
                 m_queue->flush();
             }
-            //std::cout << std::flush;
+
         }
 
 }
