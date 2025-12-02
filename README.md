@@ -6,7 +6,7 @@ cmake --preset simple_log
 cmake --build build
 cmake --install build --prefix Log
 ```
-Or use generated static library in /include file
+Or use generated static library in /install folder
 ## Characteristics
 1. Use Singleton Pattern, only one Log Intance exist in process.
 2. Support Synchronous and Asynchronous.
